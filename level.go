@@ -3,17 +3,28 @@ package logf
 //Level is log level
 type Level int
 
+//Values of Level
 const (
-	//TRACE is TRACE level of logging
 	TRACE Level = iota
-	//DEBUG is DEBUG level of logging
 	DEBUG
-	//INFO is INFO level of logging
 	INFO
-	//WARN is WARN level of logging
 	WARN
-	//ERROR is ERROR level of logging
 	ERROR
-	//FATAL is FATAL level of logging
 	FATAL
 )
+
+var lavelMap = map[Level]string{
+	TRACE: "TRACE",
+	DEBUG: "DEBUG",
+	INFO:  "INFO",
+	WARN:  "WARN",
+	ERROR: "ERROR",
+	FATAL: "FATAL",
+}
+
+func (lv Level) String() string {
+	if s, ok := lavelMap[lv]; ok {
+		return s
+	}
+	return ""
+}
