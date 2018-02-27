@@ -28,7 +28,7 @@ type Logger struct {
 	lg   *log.Logger // logger
 	mu   sync.Mutex  // ensures atomic writes; protects the following fields
 	flag int         // properties
-	min  Level
+	min  Level       // minimum level for filtering
 }
 
 //OptFunc is self-referential function for functional options pattern
@@ -43,8 +43,8 @@ func New(opts ...OptFunc) *Logger {
 	return l
 }
 
-//Writer returns closure as type OptFunc
-func Writer(w io.Writer) OptFunc {
+//WithWriter returns function for setting Writer
+func WithWriter(w io.Writer) OptFunc {
 	return func(l *Logger) {
 		if w != nil {
 			l.SetOutput(w)
@@ -52,22 +52,22 @@ func Writer(w io.Writer) OptFunc {
 	}
 }
 
-//Flags returns closure as type OptFunc
-func Flags(flag int) OptFunc {
+//WithFlags returns function for setting flags
+func WithFlags(flag int) OptFunc {
 	return func(l *Logger) {
 		l.SetFlags(flag)
 	}
 }
 
-//Prefix returns closure as type OptFunc
-func Prefix(prefix string) OptFunc {
+//WithPrefix returns function for setting prefix string
+func WithPrefix(prefix string) OptFunc {
 	return func(l *Logger) {
 		l.SetPrefix(prefix)
 	}
 }
 
-//MinLevel returns closure as type OptFunc
-func MinLevel(lv Level) OptFunc {
+//WithMinLevel returns function for setting minimum level
+func WithMinLevel(lv Level) OptFunc {
 	return func(l *Logger) {
 		l.SetMinLevel(lv)
 	}

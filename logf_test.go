@@ -23,10 +23,10 @@ func TestLevelOutput(t *testing.T) {
 	for _, tst := range testCase {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		l.Output(tst.l, 2, tst.m)
 		s := outBuf.String()
@@ -36,8 +36,8 @@ func TestLevelOutput(t *testing.T) {
 	}
 	for _, tst := range testCase {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel)
+		SetOutput(outBuf)
 		Output(tst.l, 3, tst.m)
 		s := outBuf.String()
 		if s != tst.s {
@@ -63,10 +63,10 @@ func TestLevelOutput2(t *testing.T) {
 	for _, tst := range testCase {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel),
-			Prefix(""),
-			MinLevel(WARN),
+			WithWriter(outBuf),
+			WithFlags(Llevel),
+			WithPrefix(""),
+			WithMinLevel(WARN),
 		)
 		l.Output(tst.l, 3, tst.m)
 		s := outBuf.String()
@@ -93,10 +93,10 @@ func TestLevelOutput3(t *testing.T) {
 	for _, tst := range testCase {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(0),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(0),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		l.Output(tst.l, 3, tst.m)
 		s := outBuf.String()
@@ -117,10 +117,10 @@ func TestTraceOutput(t *testing.T) {
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel|Lshortfile),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel|Lshortfile),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		switch i {
 		case 0:
@@ -142,8 +142,8 @@ func TestTraceOutput(t *testing.T) {
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel | Lshortfile)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel | Lshortfile)
+		SetOutput(outBuf)
 		switch i {
 		case 0:
 			Tracef("%v %v", m1, m2)
@@ -170,10 +170,10 @@ func TestDebugOutput(t *testing.T) {
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel|Lshortfile),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel|Lshortfile),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		switch i {
 		case 0:
@@ -195,8 +195,8 @@ func TestDebugOutput(t *testing.T) {
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel | Lshortfile)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel | Lshortfile)
+		SetOutput(outBuf)
 		switch i {
 		case 0:
 			Debugf("%v %v", m1, m2)
@@ -223,10 +223,10 @@ func TestPrintOutput(t *testing.T) {
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel|Lshortfile),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel|Lshortfile),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		switch i {
 		case 0:
@@ -248,8 +248,8 @@ func TestPrintOutput(t *testing.T) {
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel | Lshortfile)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel | Lshortfile)
+		SetOutput(outBuf)
 		switch i {
 		case 0:
 			Printf("%v %v", m1, m2)
@@ -276,10 +276,10 @@ func TestWarnOutput(t *testing.T) {
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel|Lshortfile),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel|Lshortfile),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		switch i {
 		case 0:
@@ -301,8 +301,8 @@ func TestWarnOutput(t *testing.T) {
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel | Lshortfile)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel | Lshortfile)
+		SetOutput(outBuf)
 		switch i {
 		case 0:
 			Warnf("%v %v", m1, m2)
@@ -329,10 +329,10 @@ func TestErrorOutput(t *testing.T) {
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel|Lshortfile),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel|Lshortfile),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		switch i {
 		case 0:
@@ -354,8 +354,8 @@ func TestErrorOutput(t *testing.T) {
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel | Lshortfile)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel | Lshortfile)
+		SetOutput(outBuf)
 		switch i {
 		case 0:
 			Errorf("%v %v", m1, m2)
@@ -382,10 +382,10 @@ func TestFatalOutput(t *testing.T) {
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel|Lshortfile),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel|Lshortfile),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		switch i {
 		case 0:
@@ -407,8 +407,8 @@ func TestFatalOutput(t *testing.T) {
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel | Lshortfile)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel | Lshortfile)
+		SetOutput(outBuf)
 		switch i {
 		case 0:
 			Fatalf("%v %v", m1, m2)
@@ -466,10 +466,10 @@ func TestPanicOutput(t *testing.T) {
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
 		l := New(
-			Writer(outBuf),
-			Flags(Llevel|Lshortfile),
-			Prefix(""),
-			MinLevel(TRACE),
+			WithWriter(outBuf),
+			WithFlags(Llevel|Lshortfile),
+			WithPrefix(""),
+			WithMinLevel(TRACE),
 		)
 		var err error
 		switch i {
@@ -489,14 +489,16 @@ func TestPanicOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"logf_test.go:503: [FATAL] 123 string\n",
-		"logf_test.go:505: [FATAL] 123string\n",
-		"logf_test.go:507: [FATAL] 123 string\n",
+		"[TEST] logf_test.go:505: [FATAL] 123 string\n",
+		"[TEST] logf_test.go:507: [FATAL] 123string\n",
+		"[TEST] logf_test.go:509: [FATAL] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
-		std.SetFlags(Llevel | Lshortfile)
-		std.SetOutput(outBuf)
+		SetFlags(Llevel | Lshortfile)
+		SetOutput(outBuf)
+		SetPrefix("[TEST] ")
+		SetMinLevel(FATAL)
 		var err error
 		switch i {
 		case 0:
