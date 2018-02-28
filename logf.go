@@ -17,7 +17,6 @@ const (
 	Lshortfile                             // final file name element and line number: d.go:23. overrides Llongfile
 	LUTC                                   // if Ldate or Ltime is set, use UTC rather than the local time zone
 	Llevel                                 // log level of message
-	Ljson                                  // JSON format
 	LstdFlags     = Ldate | Ltime | Llevel // initial values for the standard logger
 )
 
