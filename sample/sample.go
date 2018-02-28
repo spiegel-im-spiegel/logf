@@ -1,20 +1,23 @@
 package main
 
 import (
-	"os"
-
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/spiegel-im-spiegel/logf"
 )
 
 func main() {
-	logf.SetOutput(os.Stdout)
-	for i := 0; i < 6; i++ {
-		logf.SetMinLevel(logf.TRACE + logf.Level(i))
-		logf.Tracef("Traceing: No. %d\n", i+1)
-		logf.Debugf("Debugging: No. %d\n", i+1)
-		logf.Printf("Information: No. %d\n", i+1)
-		logf.Warnf("Warning: No. %d\n", i+1)
-		logf.Errorf("Erroring: No. %d\n", i+1)
-		logf.Fatalf("Fatal Erroring: No. %d\n", i+1)
+	rl, err := rotatelogs.New("./log.%Y%m%d%H%M.txt")
+	if err != nil {
+		logf.Fatal(err)
+		return
 	}
+	logger := logf.New(
+		logf.WithFlags(logf.LstdFlags|logf.Lshortfile),
+		logf.WithPrefix("[Sample] "),
+		logf.WithWriter(rl),
+		logf.WithMinLevel(logf.INFO),
+	)
+	logger.Print("Information")
+	//Output:
+	//[Sample] 2009/11/10 23:00:00 sample.go:20: [INFO] Information
 }

@@ -1,8 +1,7 @@
-# [logf] - Simple logging package by Golang
+# [logf] - Simple leveled logging package by Golang
 
 [![Build Status](https://travis-ci.org/spiegel-im-spiegel/logf.svg?branch=master)](https://travis-ci.org/spiegel-im-spiegel/logf)
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/spiegel-im-spiegel/logf/master/LICENSE)
-[![GitHub release](http://img.shields.io/github/release/spiegel-im-spiegel/logf.svg)](https://github.com/spiegel-im-spiegel/logf/releases/latest)
 
 ## Install 
 
@@ -60,5 +59,38 @@ Output:
 2009/11/10 23:00:00 [FATAL] Fatal Erroring: No. 5
 2009/11/10 23:00:00 [FATAL] Fatal Erroring: No. 6
 ```
+
+### Create logger instance
+
+```go
+package main
+
+import (
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+	"github.com/spiegel-im-spiegel/logf"
+)
+
+func main() {
+	rl, err := rotatelogs.New("./log.%Y%m%d%H%M.txt")
+	if err != nil {
+		logf.Fatal(err)
+		return
+	}
+	logger := logf.New(
+		logf.WithFlags(logf.LstdFlags|logf.Lshortfile),
+		logf.WithPrefix("[Sample] "),
+		logf.WithWriter(rl),
+		logf.WithMinLevel(logf.INFO),
+	)
+	logger.Print("Information")
+	//Output:
+	//[Sample] 2009/11/10 23:00:00 sample.go:20: [INFO] Information
+}
+```
+
+## Reference
+
+- [lestrrat-go/file-rotatelogs: Port of perl5 File::RotateLogs to Go](https://github.com/lestrrat-go/file-rotatelogs)
+- [rs/zerolog: Zero Allocation JSON Logger](https://github.com/rs/zerolog) : my favorite logger!
 
 [logf]: https://github.com/spiegel-im-spiegel/logf "spiegel-im-spiegel/logf: Simple logging package by Golang"
