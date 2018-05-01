@@ -99,6 +99,11 @@ func (l *Logger) SetMinLevel(lv Level) {
 	l.min = lv
 }
 
+//GetLogger returns log.Logger instance
+func (l *Logger) GetLogger() *log.Logger {
+	return l.lg
+}
+
 //Output writes the output for a logging event.
 func (l *Logger) Output(lv Level, calldepth int, s string) error {
 	if lv >= l.min {
