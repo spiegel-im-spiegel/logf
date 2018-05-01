@@ -99,6 +99,11 @@ func (l *Logger) SetMinLevel(lv Level) {
 	l.min = lv
 }
 
+// MinLevel returns the minimum level for the logger.
+func (l *Logger) MinLevel() Level {
+	return l.min
+}
+
 //GetLogger returns log.Logger instance
 func (l *Logger) GetLogger() *log.Logger {
 	return l.lg
@@ -217,6 +222,12 @@ func SetPrefix(prefix string) { std.SetPrefix(prefix) }
 
 // SetMinLevel sets the minimum level for the logger.
 func SetMinLevel(lv Level) { std.SetMinLevel(lv) }
+
+// MinLevel returns the minimum level for the logger.
+func MinLevel() Level { return std.MinLevel() }
+
+//GetLogger returns log.Logger instance
+func GetLogger() *log.Logger { return std.GetLogger() }
 
 //Output writes the output for a logging event.
 func Output(lv Level, calldepth int, s string) error {
