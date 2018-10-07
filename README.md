@@ -8,7 +8,7 @@
 
 See [go.mod](https://github.com/spiegel-im-spiegel/logf/blob/master/go.mod) file. 
 
-## Usage of [gocli] package
+## Usage of [logf] package
 
 ```go
 package main
