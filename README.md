@@ -2,14 +2,13 @@
 
 [![Build Status](https://travis-ci.org/spiegel-im-spiegel/logf.svg?branch=master)](https://travis-ci.org/spiegel-im-spiegel/logf)
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/spiegel-im-spiegel/logf/master/LICENSE)
+[![GitHub release](http://img.shields.io/github/release/spiegel-im-spiegel/logf.svg)](https://github.com/spiegel-im-spiegel/logf/releases/latest)
 
-## Install 
+## Declare [logf] module
 
-```
-$ go get -u github.com/spiegel-im-spiegel/logf
-```
+See [go.mod](https://github.com/spiegel-im-spiegel/logf/blob/master/go.mod) file. 
 
-## Usage
+## Usage of [gocli] package
 
 ```go
 package main
