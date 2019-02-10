@@ -123,16 +123,16 @@ func (l *Logger) Output(lv Level, calldepth int, s string) error {
 //lprintf calls l.Output() to print to the logger.
 //Arguments are handled in the manner of fmt.Printf.
 func (l *Logger) lprintf(lv Level, format string, v ...interface{}) {
-	l.Output(lv, 4, fmt.Sprintf(format, v...))
+	_ = l.Output(lv, 4, fmt.Sprintf(format, v...))
 }
 
 //lprint calls l.Output() to print to the logger.
 //Arguments are handled in the manner of fmt.Print.
-func (l *Logger) lprint(lv Level, v ...interface{}) { l.Output(lv, 4, fmt.Sprint(v...)) }
+func (l *Logger) lprint(lv Level, v ...interface{}) { _ = l.Output(lv, 4, fmt.Sprint(v...)) }
 
 //lprintln calls l.Output() to print to the logger.
 //Arguments are handled in the manner of fmt.Println.
-func (l *Logger) lprintln(lv Level, v ...interface{}) { l.Output(lv, 4, fmt.Sprintln(v...)) }
+func (l *Logger) lprintln(lv Level, v ...interface{}) { _ = l.Output(lv, 4, fmt.Sprintln(v...)) }
 
 //Tracef calls l.lprintf() to print to the logger.
 func (l *Logger) Tracef(format string, v ...interface{}) { l.lprintf(TRACE, format, v...) }
@@ -191,21 +191,21 @@ func (l *Logger) Fatalln(v ...interface{}) { l.lprintln(FATAL, v...) }
 //Panicf is equivalent() to l.Output() followed by a call to panic().
 func (l *Logger) Panicf(format string, v ...interface{}) {
 	s := fmt.Sprintf(format, v...)
-	l.Output(FATAL, 4, s)
+	_ = l.Output(FATAL, 4, s)
 	panic(s)
 }
 
 //Panic is equivalent() to l.Output() followed by a call to panic().
 func (l *Logger) Panic(v ...interface{}) {
 	s := fmt.Sprint(v...)
-	l.Output(FATAL, 4, s)
+	_ = l.Output(FATAL, 4, s)
 	panic(s)
 }
 
 //Panicln is equivalent() to l.Output() followed by a call to panic().
 func (l *Logger) Panicln(v ...interface{}) {
 	s := fmt.Sprintln(v...)
-	l.Output(FATAL, 4, s)
+	_ = l.Output(FATAL, 4, s)
 	panic(s)
 }
 
@@ -291,20 +291,35 @@ func Fatalln(v ...interface{}) { std.lprintln(FATAL, v...) }
 //Panicf is equivalent() to std.Output() followed by a call to panic().
 func Panicf(format string, v ...interface{}) {
 	s := fmt.Sprintf(format, v...)
-	std.Output(FATAL, 4, s)
+	_ = std.Output(FATAL, 4, s)
 	panic(s)
 }
 
 //Panic is equivalent() to std.Output() followed by a call to panic().
 func Panic(v ...interface{}) {
 	s := fmt.Sprint(v...)
-	std.Output(FATAL, 4, s)
+	_ = std.Output(FATAL, 4, s)
 	panic(s)
 }
 
 //Panicln is equivalent() to std.Output() followed by a call to panic().
 func Panicln(v ...interface{}) {
 	s := fmt.Sprintln(v...)
-	std.Output(FATAL, 4, s)
+	_ = std.Output(FATAL, 4, s)
 	panic(s)
 }
+
+/* Copyright 2018,2019 Spiegel
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * 	http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */

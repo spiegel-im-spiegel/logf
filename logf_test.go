@@ -8,17 +8,18 @@ import (
 
 func TestLevelOutput(t *testing.T) {
 	testCase := []struct {
-		l Level
-		m string
-		s string
+		l  Level
+		m  string
+		s  string
+		s2 string
 	}{
-		{l: TRACE, m: "Tracing", s: "[TRACE] Tracing\n"},
-		{l: DEBUG, m: "Debugging", s: "[DEBUG] Debugging\n"},
-		{l: INFO, m: "Information", s: "[INFO] Information\n"},
-		{l: WARN, m: "Warning", s: "[WARN] Warning\n"},
-		{l: ERROR, m: "Erroring", s: "[ERROR] Erroring\n"},
-		{l: FATAL, m: "Fatal Erroring", s: "[FATAL] Fatal Erroring\n"},
-		{l: FATAL + 1, m: "Unknown", s: "[] Unknown\n"},
+		{l: TRACE, m: "Tracing", s: "[TRACE] Tracing\nTracing\n"},
+		{l: DEBUG, m: "Debugging", s: "[DEBUG] Debugging\nDebugging\n"},
+		{l: INFO, m: "Information", s: "[INFO] Information\nInformation\n"},
+		{l: WARN, m: "Warning", s: "[WARN] Warning\nWarning\n"},
+		{l: ERROR, m: "Erroring", s: "[ERROR] Erroring\nErroring\n"},
+		{l: FATAL, m: "Fatal Erroring", s: "[FATAL] Fatal Erroring\nFatal Erroring\n"},
+		{l: FATAL + 1, m: "Unknown", s: "[] Unknown\nUnknown\n"},
 	}
 	for _, tst := range testCase {
 		outBuf := new(bytes.Buffer)
@@ -28,7 +29,15 @@ func TestLevelOutput(t *testing.T) {
 			WithPrefix(""),
 			WithMinLevel(TRACE),
 		)
-		l.Output(tst.l, 2, tst.m)
+		if l.MinLevel() != TRACE {
+			t.Errorf("Logger.MinLevel()  = %v, want %v.", l.MinLevel(), TRACE)
+		}
+		if err := l.Output(tst.l, 2, tst.m); err != nil {
+			t.Errorf("Result of Logger.Output()  = %v, want nil.", err)
+		}
+		if err := l.GetLogger().Output(1, tst.m); err != nil {
+			t.Errorf("Result of Logger.lg.Output()  = %v, want nil.", err)
+		}
 		s := outBuf.String()
 		if s != tst.s {
 			t.Errorf("Logger.Output(%d, \"%s\")  = \"%v\", want \"%v\".", int(tst.l), tst.m, s, tst.s)
@@ -38,7 +47,15 @@ func TestLevelOutput(t *testing.T) {
 		outBuf := new(bytes.Buffer)
 		SetFlags(Llevel)
 		SetOutput(outBuf)
-		Output(tst.l, 3, tst.m)
+		if MinLevel() != TRACE {
+			t.Errorf("Logger.MinLevel()  = %v, want %v.", MinLevel(), TRACE)
+		}
+		if err := Output(tst.l, 3, tst.m); err != nil {
+			t.Errorf("Result of Logger.Output()  = %v, want nil.", err)
+		}
+		if err := GetLogger().Output(2, tst.m); err != nil {
+			t.Errorf("Result of Logger.lg.Output()  = %v, want nil.", err)
+		}
 		s := outBuf.String()
 		if s != tst.s {
 			t.Errorf("Logger.Output(%d, \"%s\")  = \"%v\", want \"%v\".", int(tst.l), tst.m, s, tst.s)
@@ -110,9 +127,9 @@ func TestTraceOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:127: [TRACE] 123 string\n",
-		"logf_test.go:129: [TRACE] 123string\n",
-		"logf_test.go:131: [TRACE] 123 string\n",
+		"logf_test.go:144: [TRACE] 123 string\n",
+		"logf_test.go:146: [TRACE] 123string\n",
+		"logf_test.go:148: [TRACE] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
@@ -136,9 +153,9 @@ func TestTraceOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"logf_test.go:149: [TRACE] 123 string\n",
-		"logf_test.go:151: [TRACE] 123string\n",
-		"logf_test.go:153: [TRACE] 123 string\n",
+		"logf_test.go:166: [TRACE] 123 string\n",
+		"logf_test.go:168: [TRACE] 123string\n",
+		"logf_test.go:170: [TRACE] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
@@ -163,9 +180,9 @@ func TestDebugOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:180: [DEBUG] 123 string\n",
-		"logf_test.go:182: [DEBUG] 123string\n",
-		"logf_test.go:184: [DEBUG] 123 string\n",
+		"logf_test.go:197: [DEBUG] 123 string\n",
+		"logf_test.go:199: [DEBUG] 123string\n",
+		"logf_test.go:201: [DEBUG] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
@@ -189,9 +206,9 @@ func TestDebugOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"logf_test.go:202: [DEBUG] 123 string\n",
-		"logf_test.go:204: [DEBUG] 123string\n",
-		"logf_test.go:206: [DEBUG] 123 string\n",
+		"logf_test.go:219: [DEBUG] 123 string\n",
+		"logf_test.go:221: [DEBUG] 123string\n",
+		"logf_test.go:223: [DEBUG] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
@@ -216,9 +233,9 @@ func TestPrintOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:233: [INFO] 123 string\n",
-		"logf_test.go:235: [INFO] 123string\n",
-		"logf_test.go:237: [INFO] 123 string\n",
+		"logf_test.go:250: [INFO] 123 string\n",
+		"logf_test.go:252: [INFO] 123string\n",
+		"logf_test.go:254: [INFO] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
@@ -242,9 +259,9 @@ func TestPrintOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"logf_test.go:255: [INFO] 123 string\n",
-		"logf_test.go:257: [INFO] 123string\n",
-		"logf_test.go:259: [INFO] 123 string\n",
+		"logf_test.go:272: [INFO] 123 string\n",
+		"logf_test.go:274: [INFO] 123string\n",
+		"logf_test.go:276: [INFO] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
@@ -269,9 +286,9 @@ func TestWarnOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:286: [WARN] 123 string\n",
-		"logf_test.go:288: [WARN] 123string\n",
-		"logf_test.go:290: [WARN] 123 string\n",
+		"logf_test.go:303: [WARN] 123 string\n",
+		"logf_test.go:305: [WARN] 123string\n",
+		"logf_test.go:307: [WARN] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
@@ -295,9 +312,9 @@ func TestWarnOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"logf_test.go:308: [WARN] 123 string\n",
-		"logf_test.go:310: [WARN] 123string\n",
-		"logf_test.go:312: [WARN] 123 string\n",
+		"logf_test.go:325: [WARN] 123 string\n",
+		"logf_test.go:327: [WARN] 123string\n",
+		"logf_test.go:329: [WARN] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
@@ -322,9 +339,9 @@ func TestErrorOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:339: [ERROR] 123 string\n",
-		"logf_test.go:341: [ERROR] 123string\n",
-		"logf_test.go:343: [ERROR] 123 string\n",
+		"logf_test.go:356: [ERROR] 123 string\n",
+		"logf_test.go:358: [ERROR] 123string\n",
+		"logf_test.go:360: [ERROR] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
@@ -348,9 +365,9 @@ func TestErrorOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"logf_test.go:361: [ERROR] 123 string\n",
-		"logf_test.go:363: [ERROR] 123string\n",
-		"logf_test.go:365: [ERROR] 123 string\n",
+		"logf_test.go:378: [ERROR] 123 string\n",
+		"logf_test.go:380: [ERROR] 123string\n",
+		"logf_test.go:382: [ERROR] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
@@ -375,9 +392,9 @@ func TestFatalOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:392: [FATAL] 123 string\n",
-		"logf_test.go:394: [FATAL] 123string\n",
-		"logf_test.go:396: [FATAL] 123 string\n",
+		"logf_test.go:409: [FATAL] 123 string\n",
+		"logf_test.go:411: [FATAL] 123string\n",
+		"logf_test.go:413: [FATAL] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
@@ -401,9 +418,9 @@ func TestFatalOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"logf_test.go:414: [FATAL] 123 string\n",
-		"logf_test.go:416: [FATAL] 123string\n",
-		"logf_test.go:418: [FATAL] 123 string\n",
+		"logf_test.go:431: [FATAL] 123 string\n",
+		"logf_test.go:433: [FATAL] 123string\n",
+		"logf_test.go:435: [FATAL] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
@@ -459,9 +476,9 @@ func TestPanicOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:434: [FATAL] 123 string\n",
-		"logf_test.go:444: [FATAL] 123string\n",
-		"logf_test.go:454: [FATAL] 123 string\n",
+		"logf_test.go:451: [FATAL] 123 string\n",
+		"logf_test.go:461: [FATAL] 123string\n",
+		"logf_test.go:471: [FATAL] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)
@@ -489,9 +506,9 @@ func TestPanicOutput(t *testing.T) {
 		}
 	}
 	res2 := []string{
-		"[TEST] logf_test.go:505: [FATAL] 123 string\n",
-		"[TEST] logf_test.go:507: [FATAL] 123string\n",
-		"[TEST] logf_test.go:509: [FATAL] 123 string\n",
+		"[TEST] logf_test.go:522: [FATAL] 123 string\n",
+		"[TEST] logf_test.go:524: [FATAL] 123string\n",
+		"[TEST] logf_test.go:526: [FATAL] 123 string\n",
 	}
 	for i, r := range res2 {
 		outBuf := new(bytes.Buffer)
@@ -517,3 +534,18 @@ func TestPanicOutput(t *testing.T) {
 		}
 	}
 }
+
+/* Copyright 2018,2019 Spiegel
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * 	http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
