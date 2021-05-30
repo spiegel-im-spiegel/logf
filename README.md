@@ -1,12 +1,14 @@
 # [logf] - Simple leveled logging package by Golang
 
-[![Build Status](https://travis-ci.org/spiegel-im-spiegel/logf.svg?branch=master)](https://travis-ci.org/spiegel-im-spiegel/logf)
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/spiegel-im-spiegel/logf/master/LICENSE)
-[![GitHub release](http://img.shields.io/github/release/spiegel-im-spiegel/logf.svg)](https://github.com/spiegel-im-spiegel/logf/releases/latest)
+[![lint status](https://github.com/spiegel-im-spiegel/logf/workflows/lint/badge.svg)](https://github.com/spiegel-im-spiegel/logf/actions)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/spiegel-im-spiegel/logf/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/spiegel-im-spiegel/logf.svg)](https://github.com/spiegel-im-spiegel/logf/releases/latest)
 
-## Declare [logf] module
+## Import
 
-See [go.mod](https://github.com/spiegel-im-spiegel/logf/blob/master/go.mod) file. 
+```go
+import "github.com/spiegel-im-spiegel/emojis"
+```
 
 ## Usage of [logf] package
 
@@ -14,22 +16,22 @@ See [go.mod](https://github.com/spiegel-im-spiegel/logf/blob/master/go.mod) file
 package main
 
 import (
-	"os"
+    "os"
 
-	"github.com/spiegel-im-spiegel/logf"
+    "github.com/spiegel-im-spiegel/logf"
 )
 
 func main() {
-	logf.SetOutput(os.Stdout)
-	for i := 0; i < 6; i++ {
-		logf.SetMinLevel(logf.TRACE + logf.Level(i))
-		logf.Tracef("Traceing: No. %d\n", i+1)
-		logf.Debugf("Debugging: No. %d\n", i+1)
-		logf.Printf("Information: No. %d\n", i+1)
-		logf.Warnf("Warning: No. %d\n", i+1)
-		logf.Errorf("Erroring: No. %d\n", i+1)
-		logf.Fatalf("Fatal Erroring: No. %d\n", i+1)
-	}
+    logf.SetOutput(os.Stdout)
+    for i := 0; i < 6; i++ {
+        logf.SetMinLevel(logf.TRACE + logf.Level(i))
+        logf.Tracef("Traceing: No. %d\n", i+1)
+        logf.Debugf("Debugging: No. %d\n", i+1)
+        logf.Printf("Information: No. %d\n", i+1)
+        logf.Warnf("Warning: No. %d\n", i+1)
+        logf.Errorf("Erroring: No. %d\n", i+1)
+        logf.Fatalf("Fatal Erroring: No. %d\n", i+1)
+    }
 }
 ```
 
@@ -65,25 +67,25 @@ Output:
 package main
 
 import (
-	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
-	"github.com/spiegel-im-spiegel/logf"
+    rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+    "github.com/spiegel-im-spiegel/logf"
 )
 
 func main() {
-	rl, err := rotatelogs.New("./log.%Y%m%d%H%M.txt")
-	if err != nil {
-		logf.Fatal(err)
-		return
-	}
-	logger := logf.New(
-		logf.WithFlags(logf.LstdFlags|logf.Lshortfile),
-		logf.WithPrefix("[Sample] "),
-		logf.WithWriter(rl),
-		logf.WithMinLevel(logf.INFO),
-	)
-	logger.Print("Information")
-	//Output:
-	//[Sample] 2009/11/10 23:00:00 sample.go:20: [INFO] Information
+    rl, err := rotatelogs.New("./log.%Y%m%d%H%M.txt")
+    if err != nil {
+        logf.Fatal(err)
+        return
+    }
+    logger := logf.New(
+        logf.WithFlags(logf.LstdFlags|logf.Lshortfile),
+        logf.WithPrefix("[Sample] "),
+        logf.WithWriter(rl),
+        logf.WithMinLevel(logf.INFO),
+    )
+    logger.Print("Information")
+    //Output:
+    //[Sample] 2009/11/10 23:00:00 sample.go:20: [INFO] Information
 }
 ```
 

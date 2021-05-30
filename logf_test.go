@@ -85,7 +85,7 @@ func TestLevelOutput2(t *testing.T) {
 			WithPrefix(""),
 			WithMinLevel(WARN),
 		)
-		l.Output(tst.l, 3, tst.m)
+		_ = l.Output(tst.l, 3, tst.m)
 		s := outBuf.String()
 		if s != tst.s {
 			t.Errorf("Logger.Output(%d, \"%s\")  = \"%v\", want \"%v\".", int(tst.l), tst.m, s, tst.s)
@@ -115,7 +115,7 @@ func TestLevelOutput3(t *testing.T) {
 			WithPrefix(""),
 			WithMinLevel(TRACE),
 		)
-		l.Output(tst.l, 3, tst.m)
+		_ = l.Output(tst.l, 3, tst.m)
 		s := outBuf.String()
 		if s != tst.s {
 			t.Errorf("Logger.Output(%d, \"%s\")  = \"%v\", want \"%v\".", int(tst.l), tst.m, s, tst.s)
@@ -476,9 +476,9 @@ func TestPanicOutput(t *testing.T) {
 	m1 := 123
 	m2 := "string"
 	res := []string{
-		"logf_test.go:451: [FATAL] 123 string\n",
-		"logf_test.go:461: [FATAL] 123string\n",
-		"logf_test.go:471: [FATAL] 123 string\n",
+		"logf_test.go:494: [FATAL] 123 string\n",
+		"logf_test.go:496: [FATAL] 123string\n",
+		"logf_test.go:498: [FATAL] 123 string\n",
 	}
 	for i, r := range res {
 		outBuf := new(bytes.Buffer)

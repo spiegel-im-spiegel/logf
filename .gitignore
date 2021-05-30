@@ -15,4 +15,4 @@
 
 # Other files and folders
 vendor/
-go.sum
+.task/
