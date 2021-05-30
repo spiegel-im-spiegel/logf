@@ -1,7 +1,7 @@
 # [logf] - Simple leveled logging package by Golang
 
 [![lint status](https://github.com/spiegel-im-spiegel/logf/workflows/lint/badge.svg)](https://github.com/spiegel-im-spiegel/logf/actions)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/spiegel-im-spiegel/logf/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/spiegel-im-spiegel/logf/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/spiegel-im-spiegel/logf.svg)](https://github.com/spiegel-im-spiegel/logf/releases/latest)
 
 ## Import
